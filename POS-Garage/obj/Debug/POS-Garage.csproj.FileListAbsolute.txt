@@ -1,0 +1,7 @@
+C:\Users\Vilamonjo\Desktop\Garage POS\POS-Garage\bin\Debug\POS-Garage.exe.config
+C:\Users\Vilamonjo\Desktop\Garage POS\POS-Garage\bin\Debug\POS-Garage.exe
+C:\Users\Vilamonjo\Desktop\Garage POS\POS-Garage\bin\Debug\POS-Garage.pdb
+C:\Users\Vilamonjo\Desktop\Garage POS\POS-Garage\obj\Debug\POS-Garage.csprojResolveAssemblyReference.cache
+C:\Users\Vilamonjo\Desktop\Garage POS\POS-Garage\obj\Debug\POS-Garage.csproj.CoreCompileInputs.cache
+C:\Users\Vilamonjo\Desktop\Garage POS\POS-Garage\obj\Debug\POS-Garage.exe
+C:\Users\Vilamonjo\Desktop\Garage POS\POS-Garage\obj\Debug\POS-Garage.pdb
