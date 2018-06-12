@@ -21,7 +21,7 @@ class GarageManager
             Console.WriteLine( listOfCustomers.GetCustomer(count) ); 
 
             Console.SetCursorPosition(0, Console.WindowHeight - 3);
-            Console.WriteLine("1.-Previus Customer      2.-Next Customer");
+            Console.WriteLine("1.-Previous Customer      2.-Next Customer");
             Console.WriteLine("5.-Add Customer      0.-Exit");
             string option = Console.ReadLine();
             switch (option)
