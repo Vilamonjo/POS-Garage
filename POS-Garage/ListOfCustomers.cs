@@ -1,0 +1,140 @@
+﻿
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+class ListOfCustomers
+{
+
+    //ATRIIBUTES,PROPERTIES, CONSTRUCTOR & GET-SET
+
+    protected List<Customer> myCustomers;
+
+    public int Amount;
+
+    public ListOfCustomers()
+    {
+        myCustomers = new List<Customer>();
+        Load();
+        Amount = myCustomers.Count;
+    }
+
+    public void SetMyCustomers(List<Customer> myCustomers)
+    {
+        this.myCustomers = myCustomers;
+    }
+    public List<Customer> GetMyCustomers()
+    {
+        return myCustomers;
+    }
+
+    
+
+    //FUNCTIONS
+
+    public Customer GetCustomer(int position)
+    {
+        return myCustomers.ElementAt(position);
+    }
+
+    public void AddCustomer(Customer customerToAdd)
+    {
+        myCustomers.Add(customerToAdd);
+        Save();
+        Amount = myCustomers.Count;
+    }
+
+    private void Load()
+    {
+        if (File.Exists("customers.txt"))
+        {
+            StreamReader customersInput = new StreamReader("customers.txt");
+            string line;
+            string[] customersAux;
+            try
+            {
+                do
+                {
+                    line = customersInput.ReadLine();
+                    if (line != null)
+                    {
+                        customersAux = line.Split(';');
+                        myCustomers.Add(new Customer(
+                            customersAux[0], customersAux[1], customersAux[2],
+                            customersAux[3], customersAux[4], customersAux[5],
+                            customersAux[6], UInt32.Parse ( customersAux[7] ), 
+                            customersAux[8], customersAux[9], customersAux[10]));
+                    }
+                }
+                while (line != null);
+
+            }
+            catch (PathTooLongException)
+            {
+                Console.WriteLine("Error: Path Too Long.");
+                throw;
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Error: File not found.");
+                throw;
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("I/O error: " + e);
+                throw;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e);
+                throw;
+            }
+
+            customersInput.Close();
+        }
+        else
+        {
+            Console.WriteLine("The file does not exist");
+        }
+    }
+
+    private void Save()
+    {
+        StreamWriter customersOutput = new StreamWriter("customers.txt", false);
+        try
+        {
+            foreach(Customer c in myCustomers)
+            {
+                customersOutput.WriteLine(
+                    c.GetKey()+";"+c.GetName() + ";" + c.GetID() + ";" +
+                    c.GetResidence() + ";" + c.GetCity()+ ";" +
+                    c.GetPostalCode() + ";" + c.GetCountry()+ ";" +
+                    c.GetPhoneNumber() + ";" + c.GetEMail() + ";" +
+                    c.GetContact() + ";" + c.GetObservation());
+            }
+        }
+        catch (PathTooLongException)
+        {
+            Console.WriteLine("Error: Path Too Long.");
+            throw;
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Error: File not found.");
+            throw;
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine("I/O error: " + e);
+            throw;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error: " + e);
+            throw;
+        }
+        customersOutput.Close();
+    }
+}
+
