@@ -13,13 +13,12 @@ public class Customer
     protected uint phoneNumber;
     protected string eMail;
     protected string contact;
-    protected string observations;
+    protected string comments;
 
-    public Customer(string key,string name, string iD, string residence, string city,
+    public Customer(string name, string iD, string residence, string city,
                     string postalCode, string country, uint phoneNumber,
-                    string eMail, string contact, string observations)
+                    string eMail, string contact, string comments)
     {
-        this.key = key;
         this.name = name;
         this.iD = iD;
         this.residence = residence;
@@ -29,7 +28,8 @@ public class Customer
         this.phoneNumber = phoneNumber;
         this.eMail = eMail;
         this.contact = contact;
-        this.observations = observations;
+        this.comments = comments;
+        this.key = CreateKey();
     }
         
     //GET-SET------------------------------------------------------------------
@@ -94,7 +94,7 @@ public class Customer
     }
     public string GetCountry()
     {
-        return name;
+        return country;
     }
 
     public void SetPhoneNumber(uint phoneNumber)
@@ -124,13 +124,26 @@ public class Customer
         return contact;
     }
 
-    public void SetObservation(string observations)
+    public void SetComments(string comments)
     {
-        this.observations = observations;
+        this.comments = comments;
     }
-    public string GetObservation()
+    public string GetComments()
     {
-        return observations;
+        return comments;
+    }
+
+    //FUNCTIONS
+
+    private string CreateKey()
+    {
+        string[] nameAux = name.Split(' ');
+        string key = "";
+        for(int i = 0; i < nameAux.Length; i++)
+        {
+            key += nameAux[i].Substring(0, 3);
+        }
+        return key;
     }
 
     public override string ToString()
@@ -145,7 +158,7 @@ public class Customer
                     "Phone Number: " + GetPhoneNumber() + "\n" +
                     "Email: " + GetEMail() + "\n" +
                     "Contact: " + GetContact() + "\n" +
-                    "Observations: " + GetObservation(); 
+                    "comments: " + GetComments(); 
     }
 
 }

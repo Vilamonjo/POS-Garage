@@ -7,7 +7,7 @@ using System.Linq;
 class ListOfCustomers
 {
 
-    //ATRIIBUTES,PROPERTIES, CONSTRUCTOR & GET-SET
+    //ATRIIBUTES,PROPERTIES, CONSTRUCTOR 
 
     protected List<Customer> myCustomers;
 
@@ -19,26 +19,16 @@ class ListOfCustomers
         Load();
         Amount = myCustomers.Count;
     }
-
-    public void SetMyCustomers(List<Customer> myCustomers)
-    {
-        this.myCustomers = myCustomers;
-    }
-    public List<Customer> GetMyCustomers()
-    {
-        return myCustomers;
-    }
-
     
 
     //FUNCTIONS
 
-    public Customer GetCustomer(int position)
+    public Customer Get(int position)
     {
         return myCustomers.ElementAt(position);
     }
 
-    public void AddCustomer(Customer customerToAdd)
+    public void Add(Customer customerToAdd)
     {
         myCustomers.Add(customerToAdd);
         Save();
@@ -61,13 +51,15 @@ class ListOfCustomers
                     {
                         customersAux = line.Split(';');
                         myCustomers.Add(new Customer(
-                            customersAux[0], customersAux[1], customersAux[2],
+                            customersAux[1], customersAux[2],
                             customersAux[3], customersAux[4], customersAux[5],
                             customersAux[6], UInt32.Parse ( customersAux[7] ), 
                             customersAux[8], customersAux[9], customersAux[10]));
                     }
                 }
                 while (line != null);
+
+                customersInput.Close();
 
             }
             catch (PathTooLongException)
@@ -91,7 +83,7 @@ class ListOfCustomers
                 throw;
             }
 
-            customersInput.Close();
+            
         }
         else
         {
@@ -111,8 +103,9 @@ class ListOfCustomers
                     c.GetResidence() + ";" + c.GetCity()+ ";" +
                     c.GetPostalCode() + ";" + c.GetCountry()+ ";" +
                     c.GetPhoneNumber() + ";" + c.GetEMail() + ";" +
-                    c.GetContact() + ";" + c.GetObservation());
+                    c.GetContact() + ";" + c.GetComments());
             }
+            customersOutput.Close();
         }
         catch (PathTooLongException)
         {
@@ -134,7 +127,7 @@ class ListOfCustomers
             Console.WriteLine("Error: " + e);
             throw;
         }
-        customersOutput.Close();
+        
     }
 }
 

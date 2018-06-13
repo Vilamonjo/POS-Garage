@@ -5,6 +5,8 @@ class GarageManager
 {
     static void Main(string[] args)
     {
+        ChangeColors();
+
         DisplayMenuAnUsersControl();
     }
 
@@ -16,34 +18,38 @@ class GarageManager
         do
         {
             Console.Clear();
+            Console.SetCursorPosition(0, 1);
+            Console.WriteLine("CUSTOMERS  "+(count+1).ToString("00")
+                +"/"+listOfCustomers.Amount.ToString("00")+"  "+
+                "DATE AND TIME (Soon)");
 
             Console.SetCursorPosition(0, 5);
-            Console.WriteLine( listOfCustomers.GetCustomer(count) ); 
+            Console.WriteLine( listOfCustomers.Get(count) ); 
 
             Console.SetCursorPosition(0, Console.WindowHeight - 3);
             Console.WriteLine("1.-Previous Customer      2.-Next Customer");
             Console.WriteLine("5.-Add Customer      0.-Exit");
-            string option = Console.ReadLine();
-            switch (option)
+            
+            switch (Console.ReadKey().Key)
             {
-                case "1":
+                case ConsoleKey.D1:
                     if (count != 0)
                         count--;
                     break;
 
-                case "2":
+                case ConsoleKey.D2:
                     //I cant allCustomers[count+1] != null
                     if (count != listOfCustomers.Amount -1)
                         count++;
                     break;
 
-                case "5":
+                case ConsoleKey.D5:
                     Console.Clear();
-                    listOfCustomers.AddCustomer(GetDataToCreateCustomer());
+                    listOfCustomers.Add(GetDataToCreateCustomer());
                     
                     break;
 
-                case "0":
+                case ConsoleKey.D0:
                     exit = true;
                     break;
 
@@ -51,7 +57,7 @@ class GarageManager
         } while (!exit);
     }
 
-    public static Customer GetDataToCreateCustomer()
+    private static Customer GetDataToCreateCustomer()
     {
         Console.WriteLine("Name: ");
         string name = Console.ReadLine();
@@ -86,14 +92,19 @@ class GarageManager
         Console.WriteLine("Observations: ");
         string observation = Console.ReadLine();
 
-        string key = "FFMMAA"; //?????
+        
         Customer customerToReturn = new Customer(
-            key, name, iD, residence, city, postalCode, country,
+            name, iD, residence, city, postalCode, country,
             phone, eMail, contact, observation);
 
         return customerToReturn;
     }
 
-
+    private static void ChangeColors()
+    {
+        Console.BackgroundColor = ConsoleColor.Blue;
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Clear();
+    }
 }
 
