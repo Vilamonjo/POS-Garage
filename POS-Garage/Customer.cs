@@ -29,7 +29,7 @@ public class Customer
         this.eMail = eMail;
         this.contact = contact;
         this.comments = comments;
-        this.key = CreateKey();
+        key = CreateKey();
     }
         
     //GET-SET------------------------------------------------------------------

@@ -31,8 +31,15 @@ class ListOfCustomers
     public void Add(Customer customerToAdd)
     {
         myCustomers.Add(customerToAdd);
+        Sort();
         Save();
         Amount = myCustomers.Count;
+    }
+
+    public List<Customer> Sort()
+    {
+        return myCustomers = myCustomers.OrderBy(customer => customer.GetName())
+                    .ThenBy(customer => customer.GetID()).ToList();
     }
 
     private void Load()
