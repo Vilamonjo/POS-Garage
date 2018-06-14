@@ -1,7 +1,7 @@
 ﻿
 public class Customer
 {
-    //ATRIBUTES & CONSTRUCTOR
+    //ATRIBUTES & CONSTRUCTOR--------------------------------------------------
 
     protected string key;
     protected string name;
@@ -133,7 +133,7 @@ public class Customer
         return comments;
     }
 
-    //FUNCTIONS
+    //FUNCTIONS----------------------------------------------------------------
 
     private string CreateKey()
     {

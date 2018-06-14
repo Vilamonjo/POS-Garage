@@ -7,7 +7,7 @@ using System.Linq;
 class ListOfCustomers
 {
 
-    //ATRIIBUTES,PROPERTIES, CONSTRUCTOR 
+    //ATRIIBUTES,PROPERTIES, CONSTRUCTOR --------------------------------------
 
     protected List<Customer> myCustomers;
 
@@ -21,7 +21,7 @@ class ListOfCustomers
     }
     
 
-    //FUNCTIONS
+    //FUNCTIONS----------------------------------------------------------------
 
     public Customer Get(int position)
     {
