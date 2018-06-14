@@ -11,13 +11,12 @@ class ListOfCustomers
 
     protected List<Customer> myCustomers;
 
-    public int Amount;
+    public int Amount { get { return myCustomers.Count; } }
 
     public ListOfCustomers()
     {
         myCustomers = new List<Customer>();
         Load();
-        Amount = myCustomers.Count;
     }
     
 
@@ -33,7 +32,6 @@ class ListOfCustomers
         myCustomers.Add(customerToAdd);
         Sort();
         Save();
-        Amount = myCustomers.Count;
     }
 
     public List<Customer> Sort()
@@ -61,7 +59,8 @@ class ListOfCustomers
                             customersAux[1], customersAux[2],
                             customersAux[3], customersAux[4], customersAux[5],
                             customersAux[6], UInt32.Parse ( customersAux[7] ), 
-                            customersAux[8], customersAux[9], customersAux[10]));
+                            customersAux[8], customersAux[9], customersAux[10],
+                            Convert.ToBoolean( customersAux[11]) ) );
                     }
                 }
                 while (line != null);
@@ -110,7 +109,7 @@ class ListOfCustomers
                     c.GetResidence() + ";" + c.GetCity()+ ";" +
                     c.GetPostalCode() + ";" + c.GetCountry()+ ";" +
                     c.GetPhoneNumber() + ";" + c.GetEMail() + ";" +
-                    c.GetContact() + ";" + c.GetComments());
+                    c.GetContact() + ";" + c.GetComments() + ";" +c.GetDeleted());
             }
             customersOutput.Close();
         }

@@ -14,6 +14,7 @@ public class Customer
     protected string eMail;
     protected string contact;
     protected string comments;
+    protected bool deleted;
 
     public Customer(string name, string iD, string residence, string city,
                     string postalCode, string country, uint phoneNumber,
@@ -30,8 +31,27 @@ public class Customer
         this.contact = contact;
         this.comments = comments;
         key = CreateKey();
+        deleted = false;
     }
-        
+
+    public Customer(string name, string iD, string residence, string city,
+                string postalCode, string country, uint phoneNumber,
+                string eMail, string contact, string comments, bool deleted)
+    {
+        this.name = name;
+        this.iD = iD;
+        this.residence = residence;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.country = country;
+        this.phoneNumber = phoneNumber;
+        this.eMail = eMail;
+        this.contact = contact;
+        this.comments = comments;
+        key = CreateKey();
+        this.deleted = deleted;
+    }
+
     //GET-SET------------------------------------------------------------------
 
     public void SetKey(string key)
@@ -133,6 +153,15 @@ public class Customer
         return comments;
     }
 
+    public void SetDeleted(bool deleted)
+    {
+        this.deleted = deleted;
+    }
+    public bool GetDeleted()
+    {
+        return deleted;
+    }
+
     //FUNCTIONS----------------------------------------------------------------
 
     private string CreateKey()
@@ -148,17 +177,20 @@ public class Customer
 
     public override string ToString()
     {
-        return      "KEY: " + GetKey() + "\n" +
-                    "Name: " + GetName() + "\n" +
-                    "ID: " + GetID() + "\n" +
-                    "Residence: " + GetResidence() + "\n" +
-                    "City: " + GetCity() + "\n" +
-                    "Postal Code: " + GetPostalCode() + "\n" +
-                    "Country: " + GetCountry() + "\n" +
-                    "Phone Number: " + GetPhoneNumber() + "\n" +
-                    "Email: " + GetEMail() + "\n" +
-                    "Contact: " + GetContact() + "\n" +
-                    "comments: " + GetComments(); 
+        if (deleted)
+            return "This file its deleted";
+        else
+            return      "KEY: " + GetKey() + "\n" +
+                        "Name: " + GetName() + "\n" +
+                        "ID: " + GetID() + "\n" +
+                        "Residence: " + GetResidence() + "\n" +
+                        "City: " + GetCity() + "\n" +
+                        "Postal Code: " + GetPostalCode() + "\n" +
+                        "Country: " + GetCountry() + "\n" +
+                        "Phone Number: " + GetPhoneNumber() + "\n" +
+                        "Email: " + GetEMail() + "\n" +
+                        "Contact: " + GetContact() + "\n" +
+                        "comments: " + GetComments(); 
     }
 
 }

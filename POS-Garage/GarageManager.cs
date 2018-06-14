@@ -154,8 +154,9 @@ class GarageManager
                     Console.WriteLine("Delete this File? Y/N");
                     if(Console.ReadKey().Key == ConsoleKey.Y)
                     {
-                        //deleted = true?¿?
+                        listOfCustomers.Get(count).SetDeleted(true);
                     }
+                        
                     break;
 
                 case ConsoleKey.D0:
