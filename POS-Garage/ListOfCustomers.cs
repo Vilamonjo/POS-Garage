@@ -34,7 +34,7 @@ class ListOfCustomers
         Save();
     }
 
-    public List<Customer> Sort()
+    private List<Customer> Sort()
     {
         return myCustomers = myCustomers.OrderBy(customer => customer.GetName())
                     .ThenBy(customer => customer.GetID()).ToList();
