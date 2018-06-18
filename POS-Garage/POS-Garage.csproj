@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Customer.cs" />
+    <Compile Include="EnhancedConsole.cs" />
     <Compile Include="GarageManager.cs" />
     <Compile Include="ListOfCustomers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
