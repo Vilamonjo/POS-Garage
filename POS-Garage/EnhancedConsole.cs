@@ -5,7 +5,7 @@
 {
     
     public const string AUTHOR = "JOSE VILAPLANA, GARAGE POS ";
-    public const string VERSION = "VERSION 0.05 ";
+    public const string VERSION = "VERSION 0.06 ";
     
 
     public static void WriteAt(int x,int y,string text, string color)
@@ -19,6 +19,10 @@
 
             case "yellow":
                 Console.ForegroundColor = ConsoleColor.Yellow;
+                break;
+
+            case "gray":
+                Console.ForegroundColor = ConsoleColor.Gray;
                 break;
 
             case "white":

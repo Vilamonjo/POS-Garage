@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 public class Customer
 {
     //ATRIBUTES & CONSTRUCTOR--------------------------------------------------
@@ -190,7 +191,7 @@ public class Customer
                         "Phone Number: " + GetPhoneNumber() + "\n" +
                         "Email: " + GetEMail() + "\n" +
                         "Contact: " + GetContact() + "\n" +
-                        "comments: " + GetComments(); 
+                        "Comments: " + GetComments(); 
     }
 
 }
