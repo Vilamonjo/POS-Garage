@@ -1,63 +1,62 @@
 ﻿using System;
+using System.Threading;
 
 class CustomerManager
 {
     private ListOfCustomers listOfCustomers;
+    int currentRecord;
+    string separator;
 
     public CustomerManager()
     {
         listOfCustomers = new ListOfCustomers();
+        currentRecord = 0;
     }
 
     public void Run()
     {
         bool exit = false;
         ListOfCustomers listOfCustomers = new ListOfCustomers();
-        int count = 0;
-        string separator = new string('_', Console.WindowWidth);
+        separator = new string('-', Console.WindowWidth);
         do
         {
             Console.Clear();
-            EnhancedConsole.WriteAt(0, 0, "CUSTOMERS  " + (count + 1).ToString("000")
-                + "/" + listOfCustomers.Amount.ToString("000"), "white");
-            EnhancedConsole.WriteAt(0, 1, separator, "gray");
+            ShowHeader();
+            ShowFooter();
+            WriteCustomer(listOfCustomers, currentRecord);
 
-            WriteCustomer(listOfCustomers, count);
-
-            EnhancedConsole.WriteAt(0, Console.WindowHeight - 4, separator, "gray");
-            EnhancedConsole.WriteAt(0, Console.WindowHeight - 3, "1.-Previous Customer" +
-                "      2.-Next Customer" + "     3.-Search by record" +
-                "     4.-Search" + "     5.-Add Customer", "white");
-            EnhancedConsole.WriteAt(0, Console.WindowHeight - 2, "6.-Edit record"
-                + "            0.-Exit     " + "         D.- Delete" +
-                "              F1.-Help", "white");
-
+            // Update clock if no key is pressed
+            while (! Console.KeyAvailable)
+            {
+                Thread.Sleep(200);
+                ShowClock();
+            }
 
             switch (Console.ReadKey().Key)
             {
                 case ConsoleKey.LeftArrow:
                 case ConsoleKey.NumPad1:
                 case ConsoleKey.D1: //Previus 
-                    if (count != 0)
-                        count--;
+                    if (currentRecord != 0)
+                        currentRecord--;
                     break;
 
                 case ConsoleKey.RightArrow:
                 case ConsoleKey.NumPad2:
                 case ConsoleKey.D2: //Next
                     //I cant allCustomers[count+1] != null
-                    if (count != listOfCustomers.Amount - 1)
-                        count++;
+                    if (currentRecord != listOfCustomers.Amount - 1)
+                        currentRecord++;
                     break;
 
                 case ConsoleKey.NumPad3:
                 case ConsoleKey.D3: //Search by number
-                    SearchByNumber(listOfCustomers, ref count);
+                    SearchByNumber(listOfCustomers, ref currentRecord);
                     break;
 
                 case ConsoleKey.NumPad4:
                 case ConsoleKey.D4: //Search by text
-                    SearchByText(listOfCustomers, ref count);
+                    SearchByText(listOfCustomers, ref currentRecord);
                     break;
 
                 case ConsoleKey.NumPad5:
@@ -68,7 +67,7 @@ class CustomerManager
 
                 case ConsoleKey.NumPad6:
                 case ConsoleKey.D6: //EDIT
-                    Modify(listOfCustomers, count);
+                    Modify(listOfCustomers, currentRecord);
                     break;
 
                 case ConsoleKey.D: //Delete
@@ -77,13 +76,13 @@ class CustomerManager
 
                     if (Console.ReadKey().Key == ConsoleKey.Y)
                     {
-                        listOfCustomers.Get(count).SetDeleted(true);
+                        listOfCustomers.Get(currentRecord).SetDeleted(true);
                     }
 
                     break;
 
                 case ConsoleKey.F1:
-                    HelpMenuAndControl(listOfCustomers, count, separator);
+                    HelpMenuAndControl(listOfCustomers, currentRecord, separator);
                     break;
 
                 case ConsoleKey.NumPad0:
@@ -94,6 +93,32 @@ class CustomerManager
 
             }
         } while (!exit);
+    }
+
+    private void ShowHeader()
+    {
+        EnhancedConsole.WriteAt(2, 0, "CUSTOMERS  " + (currentRecord + 1)
+            + "/" + listOfCustomers.Amount, "white");
+        EnhancedConsole.WriteAt(68, 0, "J.V. 2018", "white");
+        EnhancedConsole.WriteAt(0, 1, separator, "gray");
+        ShowClock();
+    }
+
+    private void ShowFooter()
+    {
+        EnhancedConsole.WriteAt(0, Console.WindowHeight - 4, separator, "gray");
+        EnhancedConsole.WriteAt(2, Console.WindowHeight - 3, "1.-Previous" +
+            "      2.-Next" + "     3.-Number" +
+            "     4.-Search" + "     5.-Add", "white");
+        EnhancedConsole.WriteAt(2, Console.WindowHeight - 2, "6.-Edit"
+            + "            0.-Exit     " + "         D.- Delete" +
+            "              F1.-Help", "white");
+    }
+
+    private void ShowClock()
+    {
+        EnhancedConsole.WriteAt(40, 0, 
+            DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss"), "white");
     }
 
     public Customer GetDataToCreateCustomer()
@@ -227,7 +252,11 @@ class CustomerManager
             {
                 found = true;
                 Console.Clear();
-                EnhancedConsole.WriteAt(0, 10,
+
+                ShowHeader();
+                WriteCustomer(listOfCustomers, currentRecord);
+
+                EnhancedConsole.WriteAt(1, 20,
                     "Found on the record " + (count + 1).ToString("000"),
                     "yellow");
                 Console.ReadLine();
@@ -307,6 +336,7 @@ class CustomerManager
         string aux;
         aux = listOfCustomers.Get(count).GetName();
 
+        /*
         EnhancedConsole.WriteAt(0,y,
            "Name: " + listOfCustomers.Get(count).GetName()
            .ToString(), "white");
@@ -316,7 +346,11 @@ class CustomerManager
             name = aux;
         listOfCustomers.Get(count).SetName(name);
         y++;
-
+        */
+        EnhancedConsole.WriteAt(1, y, "Name: " , "white");
+        string name = EnhancedConsole.GetAt(10, y, aux, 20);
+        listOfCustomers.Get(count).SetName(name);
+        y++;
 
         aux = listOfCustomers.Get(count).GetID();
         EnhancedConsole.WriteAt(0, y,
@@ -484,20 +518,6 @@ class CustomerManager
         bool exit = false;
         do
         {
-            Console.Clear();
-            EnhancedConsole.WriteAt(0, 0, "CUSTOMERS  " + (count + 1).ToString("000")
-                + "/" + listOfCustomers.Amount.ToString("000"), "white");
-            EnhancedConsole.WriteAt(0, 1, separator, "gray");
-
-            WriteCustomer(listOfCustomers, countCustomers);
-
-            EnhancedConsole.WriteAt(0, Console.WindowHeight - 4, separator, "gray");
-            EnhancedConsole.WriteAt(0, Console.WindowHeight - 3, "1.-Previous Customer" +
-                "      2.-Next Customer" + "     3.-Search by record" +
-                "     4.-Search" + "     5.-Add Customer", "white");
-            EnhancedConsole.WriteAt(0, Console.WindowHeight - 2, "6.-Edit record"
-                + "            0.-Exit     " + "         D.- Delete" +
-                "              F1.-Help", "white");
             Console.BackgroundColor = ConsoleColor.Red;
             EnhancedConsole.DrawWindow(Console.WindowWidth / 4,
                 Console.WindowHeight / 4,

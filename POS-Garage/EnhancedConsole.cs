@@ -35,12 +35,41 @@
 
     public static string GetAt(int x,int y,int length)
     {
+        return GetAt(x, y, "", length);
+        /*
         string slot = new string('-',length);
         Console.SetCursorPosition(x, y);
         slot = '[' + slot + ']';
         Console.WriteLine(slot);
         Console.SetCursorPosition(x + 1, y);
         return Console.ReadLine();
+        */
+    }
+
+    public static string GetAt(int x, int y, string previousValue, int length)
+    {
+        string slot = new string('-', length);
+        string text = previousValue;
+        Console.SetCursorPosition(x, y);
+        slot = '[' + slot + ']';
+
+        char c;
+        do
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write(slot);
+            Console.SetCursorPosition(x + 1, y);
+            Console.Write(text);
+
+            c = Console.ReadKey(true).KeyChar;
+            if ((c >= ' ') && (text.Length < length)) // Alphanumeric char
+                text += c;
+            if ((c == 8) && (text.Length > 1)) // Backspace
+                text = text.Remove(text.Length - 1);
+        }
+        while (c != 13); // Return key to finish
+
+        return text;
     }
 
     public static void DrawWindow(int x, int y, int width, int heigth)
@@ -71,37 +100,13 @@
     {
         int width = 40;
         int heigth = 5;
-        int textCount = 0;
-        Console.SetCursorPosition(x, y);
-        string topBot = new string('_', width);
-        Console.ForegroundColor = ConsoleColor.Gray;
-        Console.WriteLine(topBot);
-        for (int i = 1; i < heigth - 1; i++)
-        {
-            Console.SetCursorPosition(x, y + i);
-            for (int j = 0; j < width; j++)
-            {
-                
-                if (j == 0 || j == width - 1)
-                    Console.Write('|');
-                else
-                {
-                    if(textCount != text.Length)
-                    {
-                        Console.Write(text[textCount]);
-                        textCount++;
-                    }
-                    else
-                        Console.Write(' ');
+   
+        DrawWindow(x, y, width, heigth);
+        int xText = x + (40 - text.Length) / 2;
+        int yText = y + 3;
+        Console.SetCursorPosition(xText, yText);
+        Console.WriteLine(text);
 
-                }
-                    
-                
-            }
-            Console.WriteLine();
-        }
-        Console.SetCursorPosition(x, y + heigth);
-        Console.WriteLine(topBot);
         Console.ForegroundColor = ConsoleColor.White;
     }
 

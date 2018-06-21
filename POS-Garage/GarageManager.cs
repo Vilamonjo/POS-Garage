@@ -6,14 +6,14 @@ class GarageManager
     static void Main(string[] args)
     {
         
-        ThreadStart TS = new ThreadStart(Clock);
-        Thread t = new Thread(TS);
+        // ThreadStart TS = new ThreadStart(Clock);
+        // Thread t = new Thread(TS);
         ChangeColors();
         DisplayWelcomeScreen();
-        t.Start();
+        //t.Start();
         Run();
        // DisplayMenuAnUsersControl();
-        t.Abort();
+        // t.Abort();
     }
 
     private static void Run()
@@ -61,6 +61,7 @@ class GarageManager
    
     private static void ChangeColors()
     {
+        Console.SetWindowSize(80, 25);
         Console.BackgroundColor = ConsoleColor.DarkBlue;
         Console.ForegroundColor = ConsoleColor.White;
         Console.Clear();

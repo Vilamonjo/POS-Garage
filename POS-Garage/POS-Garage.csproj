@@ -46,6 +46,7 @@
     <Compile Include="CustomerManager.cs" />
     <Compile Include="EnhancedConsole.cs" />
     <Compile Include="GarageManager.cs" />
+    <Compile Include="Invoice.cs" />
     <Compile Include="ListOfCustomers.cs" />
     <Compile Include="ListOfProducts.cs" />
     <Compile Include="Product.cs" />
