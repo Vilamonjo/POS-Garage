@@ -133,7 +133,6 @@ class ListOfCustomers
             Console.WriteLine("Error: " + e);
             throw;
         }
-        
     }
 }
 
