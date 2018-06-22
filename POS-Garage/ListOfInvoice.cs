@@ -22,15 +22,18 @@ class ListOfInvoice
 
     public void Add(Customer c)
     {
+        Invoice.invoiceCount++;
         myInvoices.Add(new Invoice(c));
     }
 
 
     public void Load(ListOfCustomers customers, ListOfProducts products)
     {
-        if (File.Exists("invoices.txt"))
+        DirectoryInfo d = new DirectoryInfo("invoices/");
+
+        foreach(FileInfo f in d.GetFiles("*.dat"))
         {
-            StreamReader invoicesInput = new StreamReader("invoices.txt");
+            StreamReader invoicesInput = new StreamReader(f.FullName);
             string line;
             string[] invoicessAux;
             int invoiceMax = 1;
@@ -46,6 +49,7 @@ class ListOfInvoice
                         int invoiceNumber = Int32.Parse(invoicessAux[0]);
                         if (invoiceNumber > invoiceMax)
                             invoiceMax = invoiceNumber;
+                        Invoice.invoiceCount = invoiceMax;
 
                         string[] dateAux = invoicessAux[1].Split('/');
 
@@ -58,7 +62,7 @@ class ListOfInvoice
                         bool found = false;
                         do
                         {
-                            if(key == customers.Get(countCustomers).GetKey())
+                            if (key == customers.Get(countCustomers).GetKey())
                             {
                                 found = true;
                                 countCustomers--;
@@ -68,8 +72,8 @@ class ListOfInvoice
                         }
                         while (countCustomers < customers.Amount && !found);
 
-                        myInvoices.Add(new Invoice(invoiceNumber,date, 
-                            customers.Get(countCustomers) ) );
+                        myInvoices.Add(new Invoice(invoiceNumber, date,
+                            customers.Get(countCustomers)));
 
                         Product p;
                         string code;
@@ -96,7 +100,7 @@ class ListOfInvoice
                                 while (countProduct < products.Amount && !found);
                                 p = products.Get(countProduct);
                                 amount = Int32.Parse(invoicessAux[i + 1]);
-                                price = Double.Parse( invoicessAux[i + 2]) ;
+                                price = Double.Parse(invoicessAux[i + 2]);
 
                                 myInvoices.Last().AddLine(p, amount, price);
                             }
@@ -128,57 +132,16 @@ class ListOfInvoice
                 throw;
             }
         }
-        else
-        {
-            Console.WriteLine("The file does not exist");
-        }
     }
 
     public void Save()
     {
-        StreamWriter invoicesOutput = new StreamWriter("invoices.txt", false);
-        try
+        foreach(Invoice i in myInvoices)
         {
-            foreach (Invoice i in myInvoices)
-            {
-                invoicesOutput.Write(
-                    i.GetHeader().GetNumInvoice()+";"+
-                    i.GetHeader().GetDate().Day+"/"+
-                    i.GetHeader().GetDate().Month+"/"+
-                    i.GetHeader().GetDate().Year+";"+
-                    i.GetHeader().GetCustomer().GetKey()
-                    );
-                foreach(Line l in i.GetLines())
-                {
-                    invoicesOutput.Write(
-                        ";" + l.GetProduct().GetCode() +
-                        ";" + l.GetAmount() +
-                        ";" + l.GetPrice());
-                }
-                invoicesOutput.WriteLine();
-            }
-            invoicesOutput.Close();
+            i.Save();
         }
-        catch (PathTooLongException)
-        {
-            Console.WriteLine("Error: Path Too Long.");
-            throw;
-        }
-        catch (FileNotFoundException)
-        {
-            Console.WriteLine("Error: File not found.");
-            throw;
-        }
-        catch (IOException e)
-        {
-            Console.WriteLine("I/O error: " + e);
-            throw;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Error: " + e);
-            throw;
-        }
+
+        
     }
 }
 

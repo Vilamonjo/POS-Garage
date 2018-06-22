@@ -116,6 +116,11 @@ class InvoiceManager
                         currentRecord++;
                     break;
 
+                case ConsoleKey.NumPad3:
+                case ConsoleKey.D3:
+                    Search(listOfInvoice, ref currentRecord);
+                    break;
+
                 case ConsoleKey.Escape:
                     exit = true;
                     break;
@@ -133,7 +138,7 @@ class InvoiceManager
         ShowClock();
     }
 
-    public void WriteInvoicesHeader()
+    private void WriteInvoicesHeader()
     {
         Header h = listOfInvoice.Get(currentRecord).GetHeader();
         EnhancedConsole.WriteAt(2, 2,
@@ -147,12 +152,13 @@ class InvoiceManager
         EnhancedConsole.WriteAt(0, 6, separator, "gray");
     }
     
-    public void WriteInvoicesLines()
+    private void WriteInvoicesLines()
     {
         List<Line> lines = listOfInvoice.Get(currentRecord).GetLines();
         EnhancedConsole.WriteAt(2, 8, "ITEM", "gray");
         EnhancedConsole.WriteAt(20, 8, "AMOUNT", "gray");
         EnhancedConsole.WriteAt(28, 8, "PRICE", "gray");
+        EnhancedConsole.WriteAt(36, 8, "TOTAL", "gray");
         int y = 10;
         foreach (Line l in lines)
         {
@@ -162,6 +168,8 @@ class InvoiceManager
                 l.GetAmount().ToString("000"), "white");
             EnhancedConsole.WriteAt(28, y,
                 l.GetPrice().ToString(), "white");
+            EnhancedConsole.WriteAt(36, y,
+                (l.GetPrice()*(Convert.ToDouble(l.GetAmount()))).ToString(), "white");
             y += 2;
         }
     }
@@ -169,8 +177,45 @@ class InvoiceManager
     private void ShowFooter()
     {
         EnhancedConsole.WriteAt(0, Console.WindowHeight - 4, separator, "gray");
-        EnhancedConsole.WriteAt(2, Console.WindowHeight - 3, "Use the arrows to navigate","white");
+        EnhancedConsole.WriteAt(2, Console.WindowHeight - 3, "Use the arrows to navigate"+
+            "   3.- Search","white");
         EnhancedConsole.WriteAt(2, Console.WindowHeight - 2, "ESC.- EXIT", "white");
+    }
+
+    public void Search(ListOfInvoice listOfInvoices, ref int count)
+    {
+        Console.Clear();
+        EnhancedConsole.WriteAt(0, 10,
+            "What are you looking for?", "white");
+        string search = EnhancedConsole.GetAt(0, 11, 15);
+        search = search.ToLower();
+        bool found = false;
+        count = 0;
+        do
+        {
+            if (listOfInvoices.Get(count).GetHeader().
+                GetCustomer().GetName().ToLower().
+                Contains(search))
+            {
+                found = true;
+                Console.Clear();
+                EnhancedConsole.WriteAt(1, 20,
+                    "Found on the record " + (count + 1).ToString("000"),
+                    "yellow");
+                Console.ReadLine();
+                count--;
+            }
+            count++;
+        }
+        while (!found && count < listOfInvoices.Amount);
+        if (!found)
+        {
+            Console.Clear();
+            EnhancedConsole.WriteAt(0, 10,
+                "Not Found!", "red");
+            Console.ReadLine();
+           
+        }
     }
 
     private void ShowClock()
