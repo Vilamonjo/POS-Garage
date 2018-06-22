@@ -44,7 +44,6 @@ class CustomerManager
                 case ConsoleKey.RightArrow:
                 case ConsoleKey.NumPad2:
                 case ConsoleKey.D2: //Next
-                    //I cant allCustomers[count+1] != null
                     if (currentRecord != listOfCustomers.Amount - 1)
                         currentRecord++;
                     break;
@@ -95,6 +94,55 @@ class CustomerManager
         } while (!exit);
     }
 
+    public Customer RunToGetCustomer()
+    {
+        bool exit = false;
+        ListOfCustomers listOfCustomers = new ListOfCustomers();
+        separator = new string('-', Console.WindowWidth);
+        do
+        {
+            Console.Clear();
+            ShowHeader();
+            ShowOtherFooter();
+            WriteCustomer(listOfCustomers, currentRecord);
+
+            // Update clock if no key is pressed
+            while (!Console.KeyAvailable)
+            {
+                Thread.Sleep(200);
+                ShowClock();
+            }
+
+            switch (Console.ReadKey().Key)
+            {
+                case ConsoleKey.LeftArrow:
+                case ConsoleKey.NumPad1:
+                case ConsoleKey.D1: //Previus 
+                    if (currentRecord != 0)
+                        currentRecord--;
+                    break;
+
+                case ConsoleKey.RightArrow:
+                case ConsoleKey.NumPad2:
+                case ConsoleKey.D2: //Next
+                    if (currentRecord != listOfCustomers.Amount - 1)
+                        currentRecord++;
+                    break;
+
+                case ConsoleKey.NumPad3:
+                case ConsoleKey.D3: //Search by number
+                    SearchByText(listOfCustomers, ref currentRecord);
+                    break;
+
+                case ConsoleKey.Enter:
+                    exit = true;
+                    break;
+
+            }
+        } while (!exit);
+        return listOfCustomers.Get(currentRecord);
+    }
+
     private void ShowHeader()
     {
         EnhancedConsole.WriteAt(2, 0, "CUSTOMERS  " + (currentRecord + 1)
@@ -113,6 +161,15 @@ class CustomerManager
         EnhancedConsole.WriteAt(2, Console.WindowHeight - 2, "6.-Edit"
             + "            0.-Exit     " + "         D.- Delete" +
             "              F1.-Help", "white");
+    }
+
+    private void ShowOtherFooter()
+    {
+        EnhancedConsole.WriteAt(0, Console.WindowHeight - 4, separator, "gray");
+        EnhancedConsole.WriteAt(2, Console.WindowHeight - 3, "1.-Previous" +
+            "      2.-Next" + "     3.-Search", "white");
+        EnhancedConsole.WriteAt(2, Console.WindowHeight - 2, 
+            "PRESS ENTER TO SELECT THE CUSTOMER", "white");
     }
 
     private void ShowClock()

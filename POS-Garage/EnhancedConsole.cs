@@ -5,7 +5,7 @@
 {
     
     public const string AUTHOR = "JOSE VILAPLANA, GARAGE POS ";
-    public const string VERSION = "VERSION 0.06 ";
+    public const string VERSION = "VERSION 0.07 ";
     
 
     public static void WriteAt(int x,int y,string text, string color)
@@ -102,10 +102,22 @@
         int heigth = 5;
    
         DrawWindow(x, y, width, heigth);
-        int xText = x + (40 - text.Length) / 2;
-        int yText = y + 3;
-        Console.SetCursorPosition(xText, yText);
-        Console.WriteLine(text);
+        int xText = x + 1;
+        int yText = y + 1;
+        int textCount = 0;
+        do
+        {
+            Console.SetCursorPosition(xText, yText);
+            Console.Write(text[textCount]);
+            xText++;
+            textCount++;
+            if (xText >= width-1 + x)
+            {
+                yText++;
+                xText = x + 1;
+            }
+        } while (textCount < text.Length);
+
 
         Console.ForegroundColor = ConsoleColor.White;
     }

@@ -35,10 +35,8 @@ class GarageManager
             switch (Console.ReadKey().KeyChar)
             {
                 case '1':
-                    Console.Clear();
-                    EnhancedConsole.WriteAt(Console.WindowWidth / 2 - 2,
-                        Console.WindowHeight / 2, "SOON", "yellow");
-                    Console.ReadKey();
+                    InvoiceManager invoiceManager = new InvoiceManager();
+                    invoiceManager.Run();
                     break;
 
                 case '2':
@@ -69,7 +67,7 @@ class GarageManager
 
     private static void DisplayWelcomeScreen()
     {
-        DateTime DateOfVersion = new DateTime(2018, 6, 20);
+        DateTime DateOfVersion = new DateTime(2018, 6, 22);
 
         EnhancedConsole.DrawWindow(Console.WindowWidth / 3,
                                 Console.WindowHeight / 3,

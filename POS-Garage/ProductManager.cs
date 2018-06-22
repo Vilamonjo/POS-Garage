@@ -96,6 +96,60 @@ class ProductManager
         } while (!exit);
     }
 
+    public Product RunToGetProduct()
+    {
+        bool exit = false;
+        ListOfProducts listOfProducts = new ListOfProducts();
+        int count = 0;
+        string separator = new string('_', Console.WindowWidth);
+        do
+        {
+            Console.Clear();
+            EnhancedConsole.WriteAt(0, 0, "PRODUCTSS  " + (count + 1).ToString("000")
+                + "/" + listOfProducts.Amount.ToString("000"), "white");
+            EnhancedConsole.WriteAt(0, 1, separator, "gray");
+
+            WriteProduct(listOfProducts, count);
+
+            EnhancedConsole.WriteAt(0, Console.WindowHeight - 4, separator, "gray");
+            EnhancedConsole.WriteAt(0, Console.WindowHeight - 3, "1.-Previous Product" +
+                "      2.-Next Product" + "     3.-Search", "white");
+            EnhancedConsole.WriteAt(0, Console.WindowHeight - 2, 
+                "PRESS ENTER TO SELECT THE PRODUCT", "white");
+
+
+            switch (Console.ReadKey().Key)
+            {
+                case ConsoleKey.LeftArrow:
+                case ConsoleKey.NumPad1:
+                case ConsoleKey.D1: //Previus 
+                    if (count != 0)
+                        count--;
+                    break;
+
+                case ConsoleKey.RightArrow:
+                case ConsoleKey.NumPad2:
+                case ConsoleKey.D2: //Next
+                    //I cant allProducts[count+1] != null
+                    if (count != listOfProducts.Amount - 1)
+                        count++;
+                    break;
+
+                case ConsoleKey.NumPad3:
+                case ConsoleKey.D3: //Search
+                    SearchByText(listOfProducts, ref count);
+                    break;
+
+                case ConsoleKey.Enter:
+                    exit = true;
+                    break;
+
+            }
+        } while (!exit);
+        return listOfProducts.Get(count);
+    }
+
+
     public Product GetDataToCreateProduct()
     {
         int y = 5;

@@ -3,7 +3,7 @@ AntMar;Antonio Marquez;123456789-P;C\ El rey de carnaval 15;Castalla;03508;Spain
 BeaLopRiq;Bea Lopez Riquelme;123456789-B;C\ Vall del birey;Ibi;03440;Spain;123456789;blopez@iessanvicente.com;Jose Vilaplana;She is my girlfriend;False
 CriRon;Cristiano Ronaldo;147258369-C;c\ soy el mas guapo;Madrid;031CR7;Spain;987654321;cr7thebeast@hotmail.pt;Zidane;He is bad;True
 IonTicArt;Ionut Ticusor Artene;14822474-R;C\ Raval 3 1b;Tibi;03109;Spain;684972451;ticu@hotmail.com;Ion Artene;Le mola el tekken;False
-JosVil;Jose Vilaplana;15422643-Q;Mestre Tomas Marco n�3 p-1;Tibi;03109;Spain;653597688;vilamonjo@gmail.com;Sample Text;He's gorgeus;False
+JosVil;Jose Vilaplana;15422643-Q;Mestre Tomas Marco n3 p-1;Tibi;03109;Spain;653597688;vilamonjo@gmail.com;Sample Text;He's gorgeus;False
 MutRos;Muten Roshi;123789456-K;Kame House;?;1;Japan;965617473;kame@yahoo.es;Jackie Chun;Old bald man;False
 NacCab;Nacho Cabanes;123456789-F;C\ Falsa 123;San Vicente del Raspeig;No me lo se;Spain;123456789;nacho@iessanvicente.com;Jose Torregrosa;Es bueno y misericordioso;False
 VicCar;Vicente Carratala;26433578-H;C\ nolose 4;San Vicente del Raspeig;03699;Spain;647529514;(unkown);Club Natacion Raspeig;Good trainer;False
