@@ -68,7 +68,7 @@ class GarageManager
 
     private static void DisplayWelcomeScreen()
     {
-        DateTime DateOfVersion = new DateTime(2018, 6, 22);
+        DateTime DateOfVersion = new DateTime(2018, 6, 23);
 
         EnhancedConsole.DrawWindow(Console.WindowWidth / 3,
                                 Console.WindowHeight / 3,

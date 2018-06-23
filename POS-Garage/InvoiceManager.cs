@@ -75,6 +75,14 @@ class InvoiceManager
                     CreateInvoice();
                     break;
 
+                case ConsoleKey.NumPad6:
+                case ConsoleKey.D6:
+                    ConvertToPDF(listOfInvoice.Get(currentRecord));
+                    Console.Clear();
+                    EnhancedConsole.WriteAt(Console.WindowWidth / 2 - 2, 10,"DONE!" , "red");
+                    Console.ReadLine();
+                    break;
+
                 case ConsoleKey.F1:
                     HelpMenuAndControl(separator);
                     break;
@@ -225,7 +233,7 @@ class InvoiceManager
             "      2.-Next" + "     3.-Number" +
             "     4.-Search" + "     5.-Add", "white");
         EnhancedConsole.WriteAt(2, Console.WindowHeight - 2, "0.-Exit  "+
-            "        F1.-Help", "white");
+            "        6.-Create PDF             F1.-Help", "white");
     }
 
     private double CalculateIVA(double total)
@@ -372,14 +380,61 @@ class InvoiceManager
         } while (!exit);
     }
 
-    private void CreatePDF()
+    private void ConvertToPDF(Invoice i)
     {
+        Customer c = i.GetHeader().GetCustomer();
+        List<Line> l = i.GetLines();
+
         PDFGenerator doc = new PDFGenerator();
-        doc.WriteAt("Invoice 1", 250,50,14);
-        doc.WriteAt("End of invoice", 250, 700, 14);
-        doc.DrawHoLine(4, 100);
-        doc.DrawVeLine(4, 100);
-        doc.SaveDocument("sample");
+
+        doc.WriteAt("GARAGE \"Twin Carburators\"",50,55,10);
+        doc.WriteAt("NIF: 12.345.679-B", 50, 70 ,10);
+        doc.DrawLine(5, 40, 0, 40,842);
+        doc.DrawLine(5, 40, 75, 595, 75);
+
+        doc.WriteAt("Invoice num: "+i.GetHeader().GetNumInvoice(), 50, 90, 10);
+        doc.WriteAt("Invoice num: " +i.GetHeader().GetDate()
+            .Day.ToString("00")+"/"+
+            i.GetHeader().GetDate()
+            .Month.ToString("00")+"/"+
+            i.GetHeader().GetDate()
+            .Year.ToString("0000"), 50, 105, 10);
+        doc.WriteAt("Customer: "+c.GetName(), 50, 130, 10);
+        doc.WriteAt("ID: " + c.GetID(), 50, 145, 10);
+
+        doc.WriteAt("Products", 50, 170, 10);
+        doc.WriteAt("Amount", 250, 170, 10);
+        doc.WriteAt("Cost", 350, 170, 10);
+        doc.WriteAt("Total", 475, 170, 10);
+
+        doc.DrawLine(5, 40, 175, 595, 175);
+        int yncrement = 200;
+        double total = CalculateTotal();
+        double iva = CalculateIVA(total);
+
+        foreach(Line ll in l)
+        {
+            double subtotal = ll.GetPrice() * ll.GetAmount();
+            doc.WriteAt(ll.GetProduct().GetDescription(), 50, yncrement, 10);
+            doc.WriteAt(ll.GetAmount().ToString(), 250, yncrement, 10);
+            doc.WriteAt(ll.GetPrice().ToString(), 350, yncrement, 10);
+            doc.WriteAt(subtotal.ToString(), 475, yncrement, 10);
+            yncrement += 15;
+        }
+
+        yncrement += 10;
+        doc.WriteAt("BASE:", 350, yncrement, 10);
+        doc.WriteAt((total - iva).ToString(), 475, yncrement, 10);
+        yncrement += 10;
+        doc.WriteAt("IVA:", 350, yncrement, 10);
+        doc.WriteAt(iva.ToString(), 475, yncrement, 10);
+        yncrement += 10;
+        doc.WriteAt("TOTAL:", 350, yncrement, 10);
+        doc.WriteAt(total.ToString(), 475, yncrement, 10);
+
+        doc.SaveDocument("invoice - "+
+            i.GetHeader().GetDate().Year.ToString("0000") + "-" +
+            i.GetHeader().GetNumInvoice().ToString());
     }
 
     private void ShowClock()

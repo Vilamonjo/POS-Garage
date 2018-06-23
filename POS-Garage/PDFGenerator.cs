@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using PdfSharp;
 using PdfSharp.Drawing;
-using PdfSharp.Pdf.IO;
 using PdfSharp.Pdf;
 
 class PDFGenerator
@@ -30,25 +27,25 @@ class PDFGenerator
     public void WriteAt(string text, int x, int y, int size)
     {
         XGraphics gfx = gfxs.Last();
-        XFont font = new XFont("Verdana", size,XFontStyle.Italic);
+        XFont font = new XFont("Times New Roman", size,XFontStyle.Regular);
 
         gfx.DrawString(text, font, XBrushes.Black, x, y);
     }
 
-    public void DrawHoLine(int thickness, int y)
+    public void DrawHoLine(int thickness, int y, int y2)
     {
         XGraphics gfx = gfxs.Last();
         PdfPage page = pages.Last();
-        XPen pen = new XPen(XColors.DarkGray, thickness);
+        XPen pen = new XPen(XColors.DarkBlue, thickness);
         gfx.DrawLine(pen, 0, y, page.Width, y);
     }
 
-    public void DrawVeLine(int thickness, int x)
+    public void DrawLine(int thickness, int x, int y, int x2, int y2)
     {
         XGraphics gfx = gfxs.Last();
         PdfPage page = pages.Last();
-        XPen pen = new XPen(XColors.DarkGray, thickness);
-        gfx.DrawLine(pen, x, 0, x, page.Height );
+        XPen pen = new XPen(XColors.DarkBlue, thickness);
+        gfx.DrawLine(pen, x, y, x2, y2);
     }
 
     public void SaveDocument(string fileName)

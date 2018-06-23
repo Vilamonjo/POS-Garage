@@ -5,7 +5,7 @@
 {
     
     public const string AUTHOR = "JOSE VILAPLANA, GARAGE POS ";
-    public const string VERSION = "VERSION 0.08 ";
+    public const string VERSION = "VERSION 0.10 ";
     
 
     public static void WriteAt(int x,int y,string text, string color)
