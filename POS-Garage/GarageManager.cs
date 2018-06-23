@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 
+
 class GarageManager
 {
     static void Main(string[] args)

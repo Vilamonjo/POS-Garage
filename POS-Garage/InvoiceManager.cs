@@ -38,7 +38,10 @@ class InvoiceManager
             EnhancedConsole.WriteAt(Console.WindowWidth / 2 - 13, 12,
                 "0.- EXIT", "white");
 
-            switch(Console.ReadKey().KeyChar)
+            EnhancedConsole.WriteAt(Console.WindowWidth / 2 - 13, 14,
+                "8.- CREATE PDF SAMPLE", "white");
+
+            switch (Console.ReadKey().KeyChar)
             {
                 case '1':
                     CreateInvoice();
@@ -46,6 +49,14 @@ class InvoiceManager
 
                 case '2':
                     SeeInvoices();
+                    break;
+
+                case '8':
+                    CreatePDF();
+                    Console.Clear();
+                    EnhancedConsole.WriteAt(Console.WindowWidth / 2 - 13, 12,
+                        "DONE!", "red");
+                    Console.ReadLine();
                     break;
 
                 case '0':
@@ -216,6 +227,16 @@ class InvoiceManager
             Console.ReadLine();
            
         }
+    }
+
+    private void CreatePDF()
+    {
+        PDFGenerator doc = new PDFGenerator();
+        doc.WriteAt("Invoice 1", 250,50,14);
+        doc.WriteAt("End of invoice", 250, 700, 14);
+        doc.DrawHoLine(4, 100);
+        doc.DrawVeLine(4, 100);
+        doc.SaveDocument("sample");
     }
 
     private void ShowClock()
