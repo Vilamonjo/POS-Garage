@@ -125,6 +125,44 @@ class ListOfProducts
             Console.WriteLine("Error: " + e);
             throw;
         }
+    }
+
+    public void ConvertToCSV()
+    {
+        StreamWriter productsOutput = new StreamWriter("csv/products.csv", false);
+        try
+        {
+            productsOutput.WriteLine("CODE;DESRIPTION;CATEGORY;SELL_PRICE;" +
+                "BUY_PRICE;STOCK;MIN_STOCK");
+            foreach (Product p in myProducts)
+            {
+                productsOutput.WriteLine(
+                    p.GetCode() + ";" + p.GetDescription() + ";" + p.GetCategory() + ";" +
+                    p.GetSellPrice() + ";" + p.GetBuyPrice() + ";" +
+                    p.GetStock() + ";" + p.GetMinStock());
+            }
+            productsOutput.Close();
+        }
+        catch (PathTooLongException)
+        {
+            Console.WriteLine("Error: Path Too Long.");
+            throw;
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Error: File not found.");
+            throw;
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine("I/O error: " + e);
+            throw;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error: " + e);
+            throw;
+        }
 
     }
 }

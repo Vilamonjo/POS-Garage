@@ -87,6 +87,10 @@ class InvoiceManager
                     Console.Clear();
                     break;
 
+                case ConsoleKey.A:
+                    AdvancedMenu();
+                    break;
+
                 case ConsoleKey.F1:
                     HelpMenuAndControl(separator);
                     break;
@@ -234,8 +238,8 @@ class InvoiceManager
 
     public void WriteTotal()
     {
-        double total = CalculateTotal();
-        double iva = CalculateIVA(total);
+        double total = listOfInvoice.Get(currentRecord).CalculateTotal();
+        double iva = listOfInvoice.Get(currentRecord).CalculateIVA(total);
         double bas = total - iva;
         string separator = new string('_', 46);
 
@@ -258,26 +262,6 @@ class InvoiceManager
         EnhancedConsole.WriteAt(2, Console.WindowHeight - 2, "0.-Exit  "+
             "        6.-Modify   7.-ConvertPDF               F1.-Help", "white");
     }
-
-    private double CalculateIVA(double total)
-    {
-        double iva = (total * 21) / 100;
-        return iva;
-    }
-
-    private double CalculateTotal()
-    {
-        List<Line> currentInvoiceLines =
-            listOfInvoice.Get(currentRecord).GetLines();
-        double total = 0;
-
-        foreach(Line l in currentInvoiceLines)
-        {
-            total += l.GetPrice() * (double) l.GetAmount();
-        }
-        return total;
-    }
-    
 
     public void Search(ListOfInvoice listOfInvoices, ref int count)
     {
@@ -565,10 +549,10 @@ class InvoiceManager
 
         doc.DrawLine(3, 40, 175, 595, 175);
         int yncrement = 200;
-        double total = CalculateTotal();
-        double iva = CalculateIVA(total);
+        double total = listOfInvoice.Get(currentRecord).CalculateTotal();
+        double iva = listOfInvoice.Get(currentRecord).CalculateIVA(total);
 
-        foreach(Line ll in l)
+        foreach (Line ll in l)
         {
             double subtotal = ll.GetPrice() * ll.GetAmount();
             doc.WriteAt(ll.GetProduct().GetDescription(), 50, yncrement, 10);
@@ -591,5 +575,45 @@ class InvoiceManager
         doc.SaveDocument("invoice - "+
             i.GetHeader().GetDate().Year.ToString("0000") + "-" +
             i.GetHeader().GetNumInvoice().ToString());
+    }
+
+    public void AdvancedMenu()
+    {
+        bool exit = false;
+        do
+        {
+            Console.BackgroundColor = ConsoleColor.DarkMagenta;
+            EnhancedConsole.DrawWindow(Console.WindowWidth / 4,
+                Console.WindowHeight / 4, "1.-Export Header To CSV");
+            EnhancedConsole.WriteAt(Console.WindowWidth / 4 + 1,
+                Console.WindowHeight / 4 + 2,
+                "2.-Export Lines To CSV", "white");
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            switch (Console.ReadKey().Key)
+            {
+                case ConsoleKey.D1:
+                case ConsoleKey.NumPad1:
+                    exit = true;
+                    listOfInvoice.ExportHeadersCSV();
+                    Console.Clear();
+                    EnhancedConsole.WriteAt(Console.WindowWidth / 2 - 3, 10, "DONE!", "yellow");
+                    Console.ReadKey();
+                    break;
+
+                case ConsoleKey.D2:
+                case ConsoleKey.NumPad2:
+                    exit = true;
+                    listOfInvoice.ExportLinesCSV();
+                    Console.Clear();
+                    EnhancedConsole.WriteAt(Console.WindowWidth / 2 - 3, 10, "DONE!", "yellow");
+                    Console.ReadKey();
+                    break;
+
+                case ConsoleKey.Escape:
+                    exit = true;
+                    break;
+            }
+        }
+        while (!exit);
     }
 }

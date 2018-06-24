@@ -37,6 +37,25 @@ class Invoice
         lines.Add(new Line(product, amount, price));
     }
 
+
+    public double CalculateIVA(double total)
+    {
+        double iva = (total * 21) / 100;
+        return iva;
+    }
+
+    public double CalculateTotal()
+    {
+        double total = 0;
+
+        foreach (Line l in lines)
+        {
+            total += l.GetPrice() * (double)l.GetAmount();
+        }
+        return total;
+    }
+
+
     public void Save()
     {
         StreamWriter invoicesOutput;

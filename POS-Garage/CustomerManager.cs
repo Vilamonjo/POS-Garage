@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Collections.Generic;
 
 class CustomerManager
 {
@@ -77,6 +78,10 @@ class CustomerManager
                     {
                         listOfCustomers.Get(currentRecord).SetDeleted(true);
                     }
+                    break;
+
+                case ConsoleKey.A:
+                    AdvancedMenu();
                     break;
 
                 case ConsoleKey.F1:
@@ -157,8 +162,8 @@ class CustomerManager
             "      2.-Next" + "     3.-Number" +
             "     4.-Search" + "     5.-Add", "white");
         EnhancedConsole.WriteAt(2, Console.WindowHeight - 2, "6.-Edit"
-            + "            0.-Exit     " + "         D.- Delete" +
-            "              F1.-Help", "white");
+            + "          0.-Exit     D.- Delete" +
+            "    F1.-Help", "white");
     }
 
     private void ShowOtherFooter()
@@ -372,6 +377,36 @@ class CustomerManager
                 }
             }
         }
+    }
+
+    public void AdvancedMenu()
+    {
+        bool exit = false;
+        do
+        {
+            Console.BackgroundColor = ConsoleColor.DarkMagenta;
+            EnhancedConsole.DrawWindow(Console.WindowWidth / 4,
+                Console.WindowHeight / 4, "1.- Export To CSV");
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            switch (Console.ReadKey().Key)
+            {
+                case ConsoleKey.D1:
+                case ConsoleKey.NumPad1:
+                    exit = true;
+                    listOfCustomers.ConvertToCSV();
+                    Console.Clear();
+                    EnhancedConsole.WriteAt(Console.WindowWidth/2-3, 10, "DONE!", "yellow");
+                    Console.ReadKey();
+                    break;
+
+                case ConsoleKey.Escape:
+                    exit = true;
+                    break;
+            }
+        }
+        while (!exit);
+
+
     }
 
     public void Modify(ListOfCustomers listOfCustomers, int count)

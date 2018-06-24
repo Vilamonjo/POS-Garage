@@ -1,36 +1,37 @@
 ﻿using System;
+using System.Collections.Generic;
 
 class ProductManager
 {
     private ListOfProducts listOfProducts;
+    int currentRecord;
 
     public ProductManager()
     {
         listOfProducts = new ListOfProducts();
+        currentRecord = 0;
     }
 
     public void Run()
     {
         bool exit = false;
         ListOfProducts listOfProducts = new ListOfProducts();
-        int count = 0;
         string separator = new string('_', Console.WindowWidth);
         do
         {
             Console.Clear();
-            EnhancedConsole.WriteAt(0, 0, "PRODUCTSS  " + (count + 1).ToString("000")
+            EnhancedConsole.WriteAt(0, 0, "PRODUCTSS  " + (currentRecord + 1).ToString("000")
                 + "/" + listOfProducts.Amount.ToString("000"), "white");
             EnhancedConsole.WriteAt(0, 1, separator, "gray");
 
-            WriteProduct(listOfProducts, count);
+            WriteProduct(listOfProducts, currentRecord);
 
             EnhancedConsole.WriteAt(0, Console.WindowHeight - 4, separator, "gray");
-            EnhancedConsole.WriteAt(0, Console.WindowHeight - 3, "1.-Previous Product" +
-                "      2.-Next Product" + "     3.-Search by record" +
-                "     4.-Search" + "     5.-Add Product", "white");
+            EnhancedConsole.WriteAt(0, Console.WindowHeight - 3, "1.-Previous" +
+                "      2.-Next" + "     3.-Number" +
+                "     4.-Search" + "     5.-Add", "white");
             EnhancedConsole.WriteAt(0, Console.WindowHeight - 2, "6.-Edit record"
-                + "            0.-Exit     " + "                   " +
-                "              F1.-Help", "white");
+                + "   0.-Exit     A.-Advanced   F1.-Help", "white");
 
             EnhancedConsole.ShowClock();
 
@@ -39,26 +40,26 @@ class ProductManager
                 case ConsoleKey.LeftArrow:
                 case ConsoleKey.NumPad1:
                 case ConsoleKey.D1: //Previus 
-                    if (count != 0)
-                        count--;
+                    if (currentRecord != 0)
+                        currentRecord--;
                     break;
 
                 case ConsoleKey.RightArrow:
                 case ConsoleKey.NumPad2:
                 case ConsoleKey.D2: //Next
-                    //I cant allProducts[count+1] != null
-                    if (count != listOfProducts.Amount - 1)
-                        count++;
+                    //I cant allProducts[currentRecord+1] != null
+                    if (currentRecord != listOfProducts.Amount - 1)
+                        currentRecord++;
                     break;
 
                 case ConsoleKey.NumPad3:
                 case ConsoleKey.D3: //Search by number
-                    SearchByNumber(listOfProducts, ref count);
+                    SearchByNumber(listOfProducts, ref currentRecord);
                     break;
 
                 case ConsoleKey.NumPad4:
                 case ConsoleKey.D4: //Search by text
-                    SearchByText(listOfProducts, ref count);
+                    SearchByText(listOfProducts, ref currentRecord);
                     break;
 
                 case ConsoleKey.NumPad5:
@@ -69,22 +70,15 @@ class ProductManager
 
                 case ConsoleKey.NumPad6:
                 case ConsoleKey.D6: //EDIT
-                    Modify(listOfProducts, count);
+                    Modify(listOfProducts, currentRecord);
                     break;
 
-              //  case ConsoleKey.D: //Delete
-              //      EnhancedConsole.WriteAt(0, Console.WindowHeight - 5,
-              //           "Delete this Record ? Y / N", "white");
-              //
-              //      if (Console.ReadKey().Key == ConsoleKey.Y)
-              //      {
-              //          listOfProducts.Get(count).SetDeleted(true);
-              //      }
-              //
-              //      break;
+                case ConsoleKey.A:
+                    AdvancedMenu();
+                    break;
 
                 case ConsoleKey.F1:
-                    HelpMenuAndControl(listOfProducts, count, separator);
+                    HelpMenuAndControl(listOfProducts, currentRecord, separator);
                     break;
 
                 case ConsoleKey.NumPad0:
@@ -101,16 +95,16 @@ class ProductManager
     {
         bool exit = false;
         ListOfProducts listOfProducts = new ListOfProducts();
-        int count = 0;
+        int currentRecord = 0;
         string separator = new string('_', Console.WindowWidth);
         do
         {
             Console.Clear();
-            EnhancedConsole.WriteAt(0, 0, "PRODUCTSS  " + (count + 1).ToString("000")
+            EnhancedConsole.WriteAt(0, 0, "PRODUCTSS  " + (currentRecord + 1).ToString("000")
                 + "/" + listOfProducts.Amount.ToString("000"), "white");
             EnhancedConsole.WriteAt(0, 1, separator, "gray");
 
-            WriteProduct(listOfProducts, count);
+            WriteProduct(listOfProducts, currentRecord);
 
             EnhancedConsole.WriteAt(0, Console.WindowHeight - 4, separator, "gray");
             EnhancedConsole.WriteAt(0, Console.WindowHeight - 3, "1.-Previous Product" +
@@ -123,21 +117,21 @@ class ProductManager
                 case ConsoleKey.LeftArrow:
                 case ConsoleKey.NumPad1:
                 case ConsoleKey.D1: //Previus 
-                    if (count != 0)
-                        count--;
+                    if (currentRecord != 0)
+                        currentRecord--;
                     break;
 
                 case ConsoleKey.RightArrow:
                 case ConsoleKey.NumPad2:
                 case ConsoleKey.D2: //Next
                     //I cant allProducts[count+1] != null
-                    if (count != listOfProducts.Amount - 1)
-                        count++;
+                    if (currentRecord != listOfProducts.Amount - 1)
+                        currentRecord++;
                     break;
 
                 case ConsoleKey.NumPad3:
                 case ConsoleKey.D3: //Search
-                    SearchByText(listOfProducts, ref count);
+                    SearchByText(listOfProducts, ref currentRecord);
                     break;
 
                 case ConsoleKey.Enter:
@@ -146,7 +140,7 @@ class ProductManager
 
             }
         } while (!exit);
-        return listOfProducts.Get(count);
+        return listOfProducts.Get(currentRecord);
     }
 
     public Product GetDataToCreateProduct()
@@ -491,8 +485,7 @@ class ProductManager
                 "      2.-Next Product" + "     3.-Search by record" +
                 "     4.-Search" + "     5.-Add Product", "white");
             EnhancedConsole.WriteAt(0, Console.WindowHeight - 2, "6.-Edit record"
-                + "            0.-Exit     " + "                   " +
-                "              F1.-Help", "white");
+                + "        0.-Exit     F1.-Help", "white");
             Console.BackgroundColor = ConsoleColor.Red;
             EnhancedConsole.DrawWindow(Console.WindowWidth / 4,
                 Console.WindowHeight / 4,
@@ -517,5 +510,35 @@ class ProductManager
             }
 
         } while (!exit);
+    }
+
+    public void AdvancedMenu()
+    {
+        bool exit = false;
+        do
+        {
+            Console.BackgroundColor = ConsoleColor.DarkMagenta;
+            EnhancedConsole.DrawWindow(Console.WindowWidth / 4,
+                Console.WindowHeight / 4, "1.- Export To CSV");
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            switch (Console.ReadKey().Key)
+            {
+                case ConsoleKey.D1:
+                case ConsoleKey.NumPad1:
+                    exit = true;
+                    listOfProducts.ConvertToCSV();
+                    Console.Clear();
+                    EnhancedConsole.WriteAt(Console.WindowWidth / 2 - 3, 10, "DONE!", "yellow");
+                    Console.ReadKey();
+                    break;
+
+                case ConsoleKey.Escape:
+                    exit = true;
+                    break;
+            }
+        }
+        while (!exit);
+
+
     }
 }

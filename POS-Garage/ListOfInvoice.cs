@@ -138,4 +138,89 @@ class ListOfInvoice
             i.Save();
         }
     }
+
+    public void ExportHeadersCSV()
+    {
+        StreamWriter invoicesOutput = new StreamWriter("csv/headers.csv");
+        try
+        {
+            invoicesOutput.WriteLine("NUMBER;DATE;CUSTOMER;TOTAL"); 
+            foreach(Invoice i in myInvoices)
+            {
+                Header h = i.GetHeader();
+                invoicesOutput.WriteLine(h.GetNumInvoice() + ";" +
+                    h.GetDate().Day.ToString("00") + "/" +
+                    h.GetDate().Month.ToString("00") + "/" +
+                    h.GetDate().Year.ToString("0000") + ";" +
+                    h.GetCustomer().GetName() + ";" +
+                    i.CalculateTotal().ToString());
+            }
+        }
+        catch (PathTooLongException)
+        {
+            Console.WriteLine("Error: Path Too Long.");
+            throw;
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Error: File not found.");
+            throw;
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine("I/O error: " + e);
+            throw;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error: " + e);
+            throw;
+        }
+    }
+
+    public void ExportLinesCSV()
+    {
+        StreamWriter invoicesOutput = new StreamWriter("csv/lines.csv");
+        int count = 1; //To Have control of the number of line
+        try
+        {
+            invoicesOutput.WriteLine("INVOICE;DATE;NUMBER;DESCRIPTION;AMOUNT;PRICE;TOTAL");
+            foreach (Invoice i in myInvoices)
+            {
+                count = 1;
+                List<Line> list = i.GetLines();
+                foreach(Line l in list)
+                {
+                    invoicesOutput.WriteLine(i.GetHeader().GetNumInvoice().ToString() + ";" +
+                        i.GetHeader().GetDate().Day.ToString("00") + "/" +
+                        i.GetHeader().GetDate().Month.ToString("00") + "/" +
+                        i.GetHeader().GetDate().Year.ToString("0000") + ";" +
+                        count.ToString() + ";" + l.GetProduct().GetDescription() + ";" +
+                        l.GetAmount() + ";" + l.GetPrice().ToString() + ";" +
+                        (l.GetPrice() * l.GetAmount()).ToString());
+                    count++;
+                }
+            }
+        }
+        catch (PathTooLongException)
+        {
+            Console.WriteLine("Error: Path Too Long.");
+            throw;
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Error: File not found.");
+            throw;
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine("I/O error: " + e);
+            throw;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error: " + e);
+            throw;
+        }
+    }
 }

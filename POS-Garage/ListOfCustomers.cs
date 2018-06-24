@@ -128,4 +128,44 @@ class ListOfCustomers
             throw;
         }
     }
+
+    public void ConvertToCSV()
+    {
+        StreamWriter customersOutput = new StreamWriter("csv/customers.csv", false);
+        try
+        {
+            customersOutput.WriteLine("KEY;NAME;ID;RESIDENCE;CITY;POSTAL_CODE" +
+                "COUNTRY;PHONE;EMAIL;CONTACT;COMMENTS");
+            foreach (Customer c in myCustomers)
+            {
+                customersOutput.WriteLine(
+                    c.GetKey() + ";" + c.GetName() + ";" + c.GetID() + ";" +
+                    c.GetResidence() + ";" + c.GetCity() + ";" +
+                    c.GetPostalCode() + ";" + c.GetCountry() + ";" +
+                    c.GetPhoneNumber() + ";" + c.GetEMail() + ";" +
+                    c.GetContact() + ";" + c.GetComments());
+            }
+            customersOutput.Close();
+        }
+        catch (PathTooLongException)
+        {
+            Console.WriteLine("Error: Path Too Long.");
+            throw;
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Error: File not found.");
+            throw;
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine("I/O error: " + e);
+            throw;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error: " + e);
+            throw;
+        }
+    }
 }
