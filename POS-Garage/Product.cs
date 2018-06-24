@@ -88,4 +88,3 @@ class Product
         this.minStock = minStock;
     }
 }
-

@@ -29,7 +29,7 @@ class CustomerManager
             while (! Console.KeyAvailable)
             {
                 Thread.Sleep(200);
-                ShowClock();
+                EnhancedConsole.ShowClock();
             }
 
             switch (Console.ReadKey().Key)
@@ -77,7 +77,6 @@ class CustomerManager
                     {
                         listOfCustomers.Get(currentRecord).SetDeleted(true);
                     }
-
                     break;
 
                 case ConsoleKey.F1:
@@ -89,7 +88,6 @@ class CustomerManager
                     exit = true;
 
                     break;
-
             }
         } while (!exit);
     }
@@ -110,7 +108,7 @@ class CustomerManager
             while (!Console.KeyAvailable)
             {
                 Thread.Sleep(200);
-                ShowClock();
+                EnhancedConsole.ShowClock();
             }
 
             switch (Console.ReadKey().Key)
@@ -149,7 +147,7 @@ class CustomerManager
             + "/" + listOfCustomers.Amount, "white");
         EnhancedConsole.WriteAt(68, 0, "J.V. 2018", "white");
         EnhancedConsole.WriteAt(0, 1, separator, "gray");
-        ShowClock();
+        EnhancedConsole.ShowClock();
     }
 
     private void ShowFooter()
@@ -170,12 +168,6 @@ class CustomerManager
             "      2.-Next" + "     3.-Search", "white");
         EnhancedConsole.WriteAt(2, Console.WindowHeight - 2, 
             "PRESS ENTER TO SELECT THE CUSTOMER", "white");
-    }
-
-    private void ShowClock()
-    {
-        EnhancedConsole.WriteAt(40, 0, 
-            DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss"), "white");
     }
 
     public Customer GetDataToCreateCustomer()
@@ -239,7 +231,6 @@ class CustomerManager
         count++;
         string observation = EnhancedConsole.GetAt(0, count, 40);
         count++;
-
 
         Customer customerToReturn = new Customer(
             name, iD, residence, city, postalCode, country,
@@ -393,17 +384,6 @@ class CustomerManager
         string aux;
         aux = listOfCustomers.Get(count).GetName();
 
-        /*
-        EnhancedConsole.WriteAt(0,y,
-           "Name: " + listOfCustomers.Get(count).GetName()
-           .ToString(), "white");
-        y++;
-        string name = EnhancedConsole.GetAt(0, y, 20);
-        if (name == "")
-            name = aux;
-        listOfCustomers.Get(count).SetName(name);
-        y++;
-        */
         EnhancedConsole.WriteAt(1, y, "Name: " , "white");
         string name = EnhancedConsole.GetAt(10, y, aux, 20);
         listOfCustomers.Get(count).SetName(name);
@@ -566,7 +546,6 @@ class CustomerManager
     public void HelpMenuAndControl(ListOfCustomers listOfCustomers,
                        int countCustomers, string separator)
     {
-
         string[] help = { "This text gives help",
                         "This one helps too",
                         "This one its even longer, so we need to check if the "+
@@ -602,4 +581,3 @@ class CustomerManager
         } while (!exit);
     }
 }
-

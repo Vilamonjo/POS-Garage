@@ -1,12 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 class ListOfCustomers
 {
-
     //ATRIIBUTES,PROPERTIES, CONSTRUCTOR --------------------------------------
 
     protected List<Customer> myCustomers;
@@ -19,7 +17,6 @@ class ListOfCustomers
         Load();
     }
     
-
     //FUNCTIONS----------------------------------------------------------------
 
     public Customer Get(int position)
@@ -66,7 +63,6 @@ class ListOfCustomers
                 while (line != null);
 
                 customersInput.Close();
-
             }
             catch (PathTooLongException)
             {
@@ -87,9 +83,7 @@ class ListOfCustomers
             {
                 Console.WriteLine("Error: " + e);
                 throw;
-            }
-
-            
+            }      
         }
         else
         {
@@ -135,4 +129,3 @@ class ListOfCustomers
         }
     }
 }
-

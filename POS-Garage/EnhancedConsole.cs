@@ -1,11 +1,10 @@
 ﻿using System;
 
-
- abstract class EnhancedConsole
+abstract class EnhancedConsole
 {
     
     public const string AUTHOR = "JOSE VILAPLANA, GARAGE POS ";
-    public const string VERSION = "VERSION 0.10 ";
+    public const string VERSION = "VERSION 0.11 ";
     
 
     public static void WriteAt(int x,int y,string text, string color)
@@ -36,14 +35,6 @@
     public static string GetAt(int x,int y,int length)
     {
         return GetAt(x, y, "", length);
-        /*
-        string slot = new string('-',length);
-        Console.SetCursorPosition(x, y);
-        slot = '[' + slot + ']';
-        Console.WriteLine(slot);
-        Console.SetCursorPosition(x + 1, y);
-        return Console.ReadLine();
-        */
     }
 
     public static string GetAt(int x, int y, string previousValue, int length)
@@ -121,8 +112,6 @@
 
         Console.ForegroundColor = ConsoleColor.White;
     }
-
-
 
     public static void WriteCentered(string text, int y, string color)
     {
@@ -206,5 +195,10 @@
             (number >= min && number <= max));
         return number;
     }
-}
 
+    public static  void ShowClock()
+    {
+        EnhancedConsole.WriteAt(40, 0,
+            DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss"), "white");
+    }
+}

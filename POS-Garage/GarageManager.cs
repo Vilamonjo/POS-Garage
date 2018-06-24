@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Threading;
 
-
 class GarageManager
 {
     static void Main(string[] args)
     {
-        
-        // ThreadStart TS = new ThreadStart(Clock);
-        // Thread t = new Thread(TS);
         ChangeColors();
         DisplayWelcomeScreen();
-        //t.Start();
         Run();
-       // DisplayMenuAnUsersControl();
-        // t.Abort();
     }
 
     private static void Run()
@@ -22,7 +15,6 @@ class GarageManager
         bool exit = false;
         do
         {
-
             Console.Clear();
             EnhancedConsole.WriteAt(Console.WindowWidth / 2 - 13, 10,
                 "1.- INVOICE MANAGEMENT", "white");
@@ -55,7 +47,6 @@ class GarageManager
                     break;
             }
         } while (!exit);
-
     }
    
     private static void ChangeColors()
@@ -68,7 +59,7 @@ class GarageManager
 
     private static void DisplayWelcomeScreen()
     {
-        DateTime DateOfVersion = new DateTime(2018, 6, 23);
+        DateTime DateOfVersion = new DateTime(2018, 6, 24);
 
         EnhancedConsole.DrawWindow(Console.WindowWidth / 3,
                                 Console.WindowHeight / 3,
@@ -95,22 +86,4 @@ class GarageManager
         }
         while (!exit && count < 100);
     }
-
-    private static void Clock()
-    {
-        while(1==1)
-
-        {
-            string date = DateTime.Now.Day.ToString("00") + "/" +
-                DateTime.Now.Month.ToString("00") + "/" +
-                DateTime.Now.Year.ToString("0000") +
-                "   " + DateTime.Now.Hour.ToString("00") + ":" +
-                DateTime.Now.Minute.ToString("00") + ":" +
-                DateTime.Now.Second.ToString("00");
-
-            EnhancedConsole.WriteAt(Console.WindowWidth - date.Length, 0, date, "white");
-            Thread.Sleep(1000);
-        }
-    }
 }
-

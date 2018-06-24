@@ -2,6 +2,8 @@
 using System.Linq;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
+using System;
+using System.Diagnostics;
 
 class PDFGenerator
 {
@@ -50,9 +52,19 @@ class PDFGenerator
 
     public void SaveDocument(string fileName)
     {
+        Console.Clear();
         pdf.Save(fileName + ".pdf");
+        EnhancedConsole.WriteAt(Console.WindowWidth / 2 - 2, 10, "DONE!", "red");
+        Console.ReadLine();
+        Console.Clear();
+        EnhancedConsole.WriteAt(Console.WindowWidth / 2 - 19, 10,
+            "Do you want to see the  PDF generated? Y/N", "white");
+
+        switch(Console.ReadKey().Key)
+        {
+            case ConsoleKey.Y:
+                Process.Start(fileName + ".pdf");
+                break;
+        }
     }
-
-
 }
-

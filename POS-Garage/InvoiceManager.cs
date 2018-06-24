@@ -41,7 +41,7 @@ class InvoiceManager
             WriteInvoicesLines();
             WriteTotal();
             ShowFooter();
-            ShowClock();
+            EnhancedConsole.ShowClock();
             
 
             switch(Console.ReadKey().Key)
@@ -77,10 +77,14 @@ class InvoiceManager
 
                 case ConsoleKey.NumPad6:
                 case ConsoleKey.D6:
+                    Modify(listOfInvoice.Get(currentRecord));
+                    Console.Clear();
+                    break;
+
+                case ConsoleKey.NumPad7:
+                case ConsoleKey.D7:
                     ConvertToPDF(listOfInvoice.Get(currentRecord));
                     Console.Clear();
-                    EnhancedConsole.WriteAt(Console.WindowWidth / 2 - 2, 10,"DONE!" , "red");
-                    Console.ReadLine();
                     break;
 
                 case ConsoleKey.F1:
@@ -121,7 +125,7 @@ class InvoiceManager
                 (new Line(p, amount, p.GetSellPrice()));
             Console.Clear();
             EnhancedConsole.WriteAt(2, Console.BufferHeight - 5
-    , "DO YOU NEED MORE PRODUCTS? Y/N", "yellow");
+                , "DO YOU NEED MORE PRODUCTS? Y/N", "yellow");
             if (Console.ReadKey().Key == ConsoleKey.Y)
                 exit = false;
             else
@@ -163,7 +167,6 @@ class InvoiceManager
             + "/" + listOfInvoice.Amount, "white");
         EnhancedConsole.WriteAt(68, 0, "J.V. 2018", "white");
         EnhancedConsole.WriteAt(0, 1, separator, "gray");
-        ShowClock();
     }
 
     private void WriteInvoicesHeader()
@@ -208,6 +211,27 @@ class InvoiceManager
         }
     }
 
+    private void WriteInvoicesLines(List<Line> lines)
+    {
+        EnhancedConsole.WriteAt(2, 8, "ITEM", "gray");
+        EnhancedConsole.WriteAt(20, 8, "AMOUNT", "gray");
+        EnhancedConsole.WriteAt(28, 8, "PRICE", "gray");
+        EnhancedConsole.WriteAt(36, 8, "TOTAL", "gray");
+        int y = 9;
+        foreach (Line l in lines)
+        {
+            EnhancedConsole.WriteAt(2, y,
+                l.GetProduct().GetDescription(), "white");
+            EnhancedConsole.WriteAt(20, y,
+                l.GetAmount().ToString("000"), "white");
+            EnhancedConsole.WriteAt(28, y,
+                l.GetPrice().ToString(), "white");
+            EnhancedConsole.WriteAt(36, y,
+                (l.GetPrice() * (Convert.ToDouble(l.GetAmount()))).ToString(), "white");
+            y++;
+        }
+    }
+
     public void WriteTotal()
     {
         double total = CalculateTotal();
@@ -223,7 +247,6 @@ class InvoiceManager
         EnhancedConsole.WriteAt(20, Console.WindowHeight - 6, bas.ToString(), "white");
         EnhancedConsole.WriteAt(28, Console.WindowHeight - 6, iva.ToString(), "white");
         EnhancedConsole.WriteAt(36, Console.WindowHeight - 6, total.ToString(), "red");
-
     }
 
     private void ShowFooter()
@@ -233,7 +256,7 @@ class InvoiceManager
             "      2.-Next" + "     3.-Number" +
             "     4.-Search" + "     5.-Add", "white");
         EnhancedConsole.WriteAt(2, Console.WindowHeight - 2, "0.-Exit  "+
-            "        6.-Create PDF             F1.-Help", "white");
+            "        6.-Modify   7.-ConvertPDF               F1.-Help", "white");
     }
 
     private double CalculateIVA(double total)
@@ -290,6 +313,143 @@ class InvoiceManager
         }
     }
 
+    public void Modify(Invoice invoice)
+    {
+        bool exit = false;
+
+        do
+        {
+            Console.Clear();
+            EnhancedConsole.WriteAt(0, 10,
+                "Do you want to modify the header or the lines?", "white");
+            EnhancedConsole.WriteAt(0, 11,
+                "1.-Header  2.-Lines    0.-Cancel", "white");
+            switch (Console.ReadKey().KeyChar)
+            {
+                case '1':
+                    ModifyHeader(invoice.GetHeader());
+                    exit = true;
+                    break;
+
+                case '2':
+                    ModifyLines(invoice.GetLines());
+                    exit = true;
+                    break;
+
+                case '0':
+                    exit = true;
+                    break;
+            }
+        }
+        while (!exit); 
+    }
+
+    public void ModifyHeader(Header header)
+    {
+        string aux;
+        int auxINT;
+        int day;
+        int month;
+        int year;
+
+        Console.Clear();
+        EnhancedConsole.WriteAt(1, Console.BufferWidth - 2,
+            "To not change a value, just press Enter", "white");
+        EnhancedConsole.WriteAt(1, 10,
+            header.GetDate().Day.ToString("00")+"/"+
+            header.GetDate().Month.ToString("00") + "/" +
+            header.GetDate().Year.ToString("0000"), "white");
+        auxINT = header.GetDate().Day;
+        do
+        {
+            EnhancedConsole.WriteAt(1, 11, "Day:", "white");
+            aux = EnhancedConsole.GetAt(8, 11, 2);
+        }
+        while (!Int32.TryParse(aux, out day) && aux != "");
+        if (aux == "")
+        {
+            day = auxINT;
+        }
+
+        auxINT = header.GetDate().Month;
+        do
+        {
+            EnhancedConsole.WriteAt(1, 12, "Month:", "white");
+            aux = EnhancedConsole.GetAt(6, 12, 2);
+        }
+        while (!Int32.TryParse(aux, out month) && aux != "");
+        if (aux == "")
+        {
+            month = auxINT;
+        }
+
+        auxINT = header.GetDate().Year;
+        do
+        {
+            EnhancedConsole.WriteAt(1, 13, "Yearh:", "white");
+            aux = EnhancedConsole.GetAt(6, 13, 4);
+        }
+        while (!Int32.TryParse(aux, out year) && aux != "");
+        if (aux == "")
+        {
+            year = auxINT;
+        }
+        DateTime dateToChange = new DateTime(year, month, day);
+
+        header.SetDate(dateToChange);
+
+        Console.Clear();
+        EnhancedConsole.WriteAt(1, 10,
+            "Current Customer: " + header.GetCustomer().GetName(), "white");
+        EnhancedConsole.WriteAt(1, 11, "Need to change the customer? Y/N", "white");
+        switch(Console.ReadKey().Key)
+        {
+            case ConsoleKey.Y:
+                customerManager = new CustomerManager();
+                header.SetCustomer(customerManager.RunToGetCustomer());
+                break;
+        }
+    }
+
+    public void ModifyLines(List<Line> list)
+    {
+        string aux;
+        int count;
+        do
+        {
+            do
+            {
+                Console.Clear();
+                WriteInvoicesLines(list);
+                EnhancedConsole.WriteAt(2, 20,
+                    "Wich line do you want to modify?", "white");
+                aux = EnhancedConsole.GetAt(2, 21, 3);
+            }
+            while (!Int32.TryParse(aux, out count));
+        }
+        while (!(count > 0 && count <= list.Count));
+
+
+        productManager = new ProductManager();
+
+
+        Product p = productManager.RunToGetProduct();
+
+        list.ElementAt(count-1).SetProduct(p);
+        EnhancedConsole.WriteAt(2, 20
+              , "AMOUNT?", "yellow");
+        string amountSTR;
+        int amount;
+        do
+        {
+            amountSTR = Console.ReadLine();
+        }
+        while (!Int32.TryParse(amountSTR, out amount));
+
+        list.ElementAt(count-1).SetAmount(amount);
+        list.ElementAt(count - 1).SetPrice(p.GetSellPrice());
+    }
+
     public void SearchByItem(ListOfInvoice list, ref int count, string search)
     {
         bool found = false;
@@ -316,8 +476,6 @@ class InvoiceManager
                     found = true;
                     founds.Enqueue("Find at " + (count + 1));
                 }
-                    
-
                     count2++;
             }
             while (count2 < i.GetLines().Count);
@@ -359,8 +517,6 @@ class InvoiceManager
                 help[count]);
             Console.BackgroundColor = ConsoleColor.DarkBlue;
 
-
-
             switch (Console.ReadKey().Key)
             {
                 case ConsoleKey.LeftArrow:
@@ -389,8 +545,8 @@ class InvoiceManager
 
         doc.WriteAt("GARAGE \"Twin Carburators\"",50,55,10);
         doc.WriteAt("NIF: 12.345.679-B", 50, 70 ,10);
-        doc.DrawLine(5, 40, 0, 40,842);
-        doc.DrawLine(5, 40, 75, 595, 75);
+        doc.DrawLine(3, 40, 0, 40,842);
+        doc.DrawLine(3, 40, 75, 595, 75);
 
         doc.WriteAt("Invoice num: "+i.GetHeader().GetNumInvoice(), 50, 90, 10);
         doc.WriteAt("Invoice num: " +i.GetHeader().GetDate()
@@ -407,7 +563,7 @@ class InvoiceManager
         doc.WriteAt("Cost", 350, 170, 10);
         doc.WriteAt("Total", 475, 170, 10);
 
-        doc.DrawLine(5, 40, 175, 595, 175);
+        doc.DrawLine(3, 40, 175, 595, 175);
         int yncrement = 200;
         double total = CalculateTotal();
         double iva = CalculateIVA(total);
@@ -436,11 +592,4 @@ class InvoiceManager
             i.GetHeader().GetDate().Year.ToString("0000") + "-" +
             i.GetHeader().GetNumInvoice().ToString());
     }
-
-    private void ShowClock()
-    {
-        EnhancedConsole.WriteAt(40, 0,
-            DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss"), "white");
-    }
 }
-

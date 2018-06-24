@@ -30,7 +30,7 @@ class Line
         return amount;
     }
 
-    public void SetProce(double price)
+    public void SetPrice(double price)
     { 
         this.price = price;
     }
@@ -39,4 +39,3 @@ class Line
         return price;
     }
 }
-

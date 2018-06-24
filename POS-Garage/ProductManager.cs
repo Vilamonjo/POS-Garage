@@ -32,6 +32,7 @@ class ProductManager
                 + "            0.-Exit     " + "                   " +
                 "              F1.-Help", "white");
 
+            EnhancedConsole.ShowClock();
 
             switch (Console.ReadKey().Key)
             {
@@ -117,7 +118,6 @@ class ProductManager
             EnhancedConsole.WriteAt(0, Console.WindowHeight - 2, 
                 "PRESS ENTER TO SELECT THE PRODUCT", "white");
 
-
             switch (Console.ReadKey().Key)
             {
                 case ConsoleKey.LeftArrow:
@@ -149,7 +149,6 @@ class ProductManager
         return listOfProducts.Get(count);
     }
 
-
     public Product GetDataToCreateProduct()
     {
         int y = 5;
@@ -159,12 +158,10 @@ class ProductManager
         string code = EnhancedConsole.GetAt(0, y, 10);
         y++;
 
-
         EnhancedConsole.WriteAt(0, y, "Description:", "white");
         y++;
         string description = EnhancedConsole.GetAt(0, y, 20);
         y++;
-
 
         EnhancedConsole.WriteAt(0, y, "Category: ", "white");
         y++;
@@ -245,7 +242,6 @@ class ProductManager
                 "Wrong Number!", "white");
             Console.ReadLine();
         }
-
     }
 
     public void SearchByText(ListOfProducts listOfProducts, ref int count)
@@ -348,7 +344,6 @@ class ProductManager
             code = aux;
         listOfProducts.Get(count).SetCode(code);
         y++;
-
 
         aux = listOfProducts.Get(count).GetDescription();
         EnhancedConsole.WriteAt(0, y,
@@ -476,7 +471,6 @@ class ProductManager
     public void HelpMenuAndControl(ListOfProducts listOfProducts,
                        int countProducts, string separator)
     {
-
         string[] help = { "This text gives help",
                         "This one helps too",
                         "This one its even longer, so we need to check if the "+
@@ -505,8 +499,6 @@ class ProductManager
                 help[count]);
             Console.BackgroundColor = ConsoleColor.DarkBlue;
 
-
-
             switch (Console.ReadKey().Key)
             {
                 case ConsoleKey.LeftArrow:
@@ -523,7 +515,7 @@ class ProductManager
                     exit = true;
                     break;
             }
+
         } while (!exit);
     }
 }
-

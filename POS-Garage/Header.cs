@@ -42,4 +42,3 @@ class Header
         this.numInvoice = numInvoice;
     }
 }
-

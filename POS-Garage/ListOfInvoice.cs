@@ -74,7 +74,6 @@ class ListOfInvoice
 
                         myInvoices.Add(new Invoice(invoiceNumber, date,
                             customers.Get(countCustomers)));
-
                         Product p;
                         string code;
                         double price;
@@ -107,9 +106,7 @@ class ListOfInvoice
                     }
                 }
                 while (line != null);
-
                 invoicesInput.Close();
-
             }
             catch (PathTooLongException)
             {
@@ -140,9 +137,5 @@ class ListOfInvoice
         {
             i.Save();
         }
-
-        
     }
 }
-
-
