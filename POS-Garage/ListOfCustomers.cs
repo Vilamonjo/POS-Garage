@@ -134,16 +134,17 @@ class ListOfCustomers
         StreamWriter customersOutput = new StreamWriter("csv/customers.csv", false);
         try
         {
-            customersOutput.WriteLine("KEY;NAME;ID;RESIDENCE;CITY;POSTAL_CODE" +
+            customersOutput.WriteLine("KEY;NAME;ID;RESIDENCE;CITY;POSTAL_CODE;" +
                 "COUNTRY;PHONE;EMAIL;CONTACT;COMMENTS");
             foreach (Customer c in myCustomers)
             {
                 customersOutput.WriteLine(
-                    c.GetKey() + ";" + c.GetName() + ";" + c.GetID() + ";" +
-                    c.GetResidence() + ";" + c.GetCity() + ";" +
-                    c.GetPostalCode() + ";" + c.GetCountry() + ";" +
-                    c.GetPhoneNumber() + ";" + c.GetEMail() + ";" +
-                    c.GetContact() + ";" + c.GetComments());
+                    "\""+c.GetKey()+"\""+ ";" + "\"" + c.GetName() + "\"" + 
+                    ";" + "\"" + c.GetID() + "\"" + ";" + "\"" +
+                    c.GetResidence() + "\"" + ";" + c.GetCity() + "\"" + ";" + "\"" +
+                    c.GetPostalCode() + "\"" + ";" + "\"" + c.GetCountry() + "\"" + ";" + "\"" +
+                    c.GetPhoneNumber() + "\"" + ";" + "\"" + c.GetEMail() + "\"" + ";" + "\"" +
+                    c.GetContact() + "\"" + ";" + "\"" + c.GetComments() + "\"");
             }
             customersOutput.Close();
         }

@@ -148,13 +148,14 @@ class ListOfInvoice
             foreach(Invoice i in myInvoices)
             {
                 Header h = i.GetHeader();
-                invoicesOutput.WriteLine(h.GetNumInvoice() + ";" +
-                    h.GetDate().Day.ToString("00") + "/" +
+                invoicesOutput.WriteLine("\"" + h.GetNumInvoice() + "\"" + ";" 
+                    + "\"" + h.GetDate().Day.ToString("00") + "/" +
                     h.GetDate().Month.ToString("00") + "/" +
-                    h.GetDate().Year.ToString("0000") + ";" +
-                    h.GetCustomer().GetName() + ";" +
-                    i.CalculateTotal().ToString());
+                    h.GetDate().Year.ToString("0000") + "\"" + ";" 
+                    + "\"" + h.GetCustomer().GetName() + "\"" + ";" 
+                    + "\"" + i.CalculateTotal().ToString() + "\"");
             }
+            invoicesOutput.Close();
         }
         catch (PathTooLongException)
         {
@@ -191,16 +192,19 @@ class ListOfInvoice
                 List<Line> list = i.GetLines();
                 foreach(Line l in list)
                 {
-                    invoicesOutput.WriteLine(i.GetHeader().GetNumInvoice().ToString() + ";" +
-                        i.GetHeader().GetDate().Day.ToString("00") + "/" +
+                    invoicesOutput.WriteLine("\"" + i.GetHeader().GetNumInvoice().ToString() + "\"" + ";"
+                       + "\"" + i.GetHeader().GetDate().Day.ToString("00") + "/" +
                         i.GetHeader().GetDate().Month.ToString("00") + "/" +
-                        i.GetHeader().GetDate().Year.ToString("0000") + ";" +
-                        count.ToString() + ";" + l.GetProduct().GetDescription() + ";" +
-                        l.GetAmount() + ";" + l.GetPrice().ToString() + ";" +
-                        (l.GetPrice() * l.GetAmount()).ToString());
+                        i.GetHeader().GetDate().Year.ToString("0000") + "\"" + ";"
+                        + "\"" + count.ToString() + "\"" + ";"
+                        + "\"" + l.GetProduct().GetDescription() + "\"" + ";" 
+                        + "\"" + l.GetAmount() + "\"" + ";"
+                        + "\"" + l.GetPrice().ToString() + "\"" + ";" + "\"" +
+                        (l.GetPrice() * l.GetAmount()).ToString() + "\"" );
                     count++;
                 }
             }
+            invoicesOutput.Close();
         }
         catch (PathTooLongException)
         {

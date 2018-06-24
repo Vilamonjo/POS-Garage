@@ -137,9 +137,11 @@ class ListOfProducts
             foreach (Product p in myProducts)
             {
                 productsOutput.WriteLine(
-                    p.GetCode() + ";" + p.GetDescription() + ";" + p.GetCategory() + ";" +
-                    p.GetSellPrice() + ";" + p.GetBuyPrice() + ";" +
-                    p.GetStock() + ";" + p.GetMinStock());
+                    "\"" + p.GetCode() + "\"" + ";" + "\"" + p.GetDescription() 
+                    + "\"" + ";" + "\"" + p.GetCategory() + "\"" + ";" + "\"" +
+                    p.GetSellPrice() + "\"" + ";" + "\"" +
+                    p.GetBuyPrice() + "\"" + ";" + "\"" +
+                    p.GetStock() + "\"" + ";" + "\"" + p.GetMinStock() + "\"");
             }
             productsOutput.Close();
         }
